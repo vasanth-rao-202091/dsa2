@@ -1,0 +1,78 @@
+// Write a Program for Quick Sort Technique using Iteration and Recursion
+#include <iostream>
+using namespace std;
+void printArray(int array[], int size);
+void swap(int *x, int *y);
+
+int partition(int array[], int l, int h) {
+  int pivot = array[h];
+  int i = (l);
+  for (int j = l; j < h; j++) {
+    if (array[j] <= pivot) { 
+      swap(&array[i], &array[j]);
+      i++;
+    }
+  }
+  swap(&array[i], &array[h]);
+  return (i );
+}
+void quickSort_r(int array[], int l, int h) 
+{
+  if (l< h) {
+    int pi = partition(array, l, h);
+    quickSort_r(array, l, pi - 1);
+    quickSort_r(array, pi + 1, h);
+  }
+}
+void quickSort_i(int arr[], int l, int h)
+{
+	cout<<"iterative shorting";
+    int stack[h + 1];
+    int top = -1;
+    stack[++top] = l;
+    stack[++top] = h;
+    while (top >= 0) {
+        h = stack[top--];
+        l = stack[top--];
+        int i = partition(arr, l, h);
+        if (i - 1 > l) {
+            stack[++top] = l;
+            stack[++top] = i - 1;
+        }
+        if (i + 1 < h) {
+            stack[++top] = i + 1;
+            stack[++top] = h;
+        }
+    }
+} 
+
+int main() {
+  int i,size;
+  cout<<"enter the maximum size of array";
+  cin>>size;
+  int array[size];
+  cout<<"enter your array";
+  for(i=0;i<size;i++)
+  {
+  	cin>>array[i];
+  }
+  cout << "Unsorted Array: \n";
+  printArray(array, size);
+  quickSort_i(array, 0, size - 1);
+  quickSort_r(array,0,size-1);
+  cout << "Sorted array in ascending order: \n";
+  printArray(array, size);
+}
+void swap(int *x, int *y)
+{
+  int t = *x;
+  *x = *y;
+  *y = t;
+}
+void printArray(int array[], int size) 
+{
+  int i;
+  for (i = 0; i < size; i++)
+    cout << array[i] << " ";
+  cout << endl;
+}
